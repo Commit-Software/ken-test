@@ -34,11 +34,11 @@ for (const name of fs.readdirSync(docRoot)) {
   updateVersion("latest", name);
   if (prerelease.length > 0) {
     const prType = prerelease[0];
-    updateVersion(`v${major}.${minor}.${patch}-${prType}`, name);
+    updateVersion(`${major}.${minor}.${patch}-${prType}`, name);
     updateVersion(prType, name);
   } else {
-    updateVersion(`v${major}.${minor}.x`, name);
-    updateVersion(`v${major}.x.x`, name);
+    updateVersion(`${major}.${minor}.x`, name);
+    updateVersion(`${major}.x.x`, name);
     updateVersion("stable", name);
   }
 }
