@@ -1,3 +1,78 @@
-node_modules
-docs
-*.tgz
+######################
+# Project Specific
+######################
+lib/
+dist/
+jest_results/
+webpack_reports/
+node_modules/
+generatedDoc/
+tests_ephemeral_data/
+.detox-artifacts
+.npmrc
+website/
+.scannerwork
+lerna-debug.log
+yarn-error.log
+npm-debug.log
+*.hprof
+examples/*/report.*
+examples/*/vendor/
+**/android/.gradle/
+
+######################
+# Intellij
+######################
+.idea*
+*.iml
+*.iws
+*.ipr
+*.ids
+*.orig
+classes/
+build/
+
+######################
+# Visual Studio Code
+######################
+.vscode/
+
+######################
+# Windows
+######################
+# Windows image file caches
+Thumbs.db
+
+# Folder config file
+Desktop.ini
+
+######################
+# Mac OSX
+######################
+.DS_Store
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+######################
+# Directories
+######################
+
+######################
+# Logs
+######################
+*.log*
+
+######################
+# Others
+######################
+*.*~
+*~
+.merge_file*
+*.swp
+*.swo
+.nvmrc
