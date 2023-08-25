@@ -1,0 +1,53 @@
+name: Publish Documentation
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploydoc:
+    name: Deploy documentation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+      - run: npm ci
+
+      - id: branch
+        name: Extract branch
+        shell: bash
+        run: echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}
+
+      - name: Update dochome
+        uses: actions/github-script@v6
+        env:
+          VERSION: ${{ steps.branch.outputs.short_ref }}
+        with:
+          script: |
+            const fs = require("fs");
+            const path = require("path");
+
+            const root = process.env.GITHUB_WORKSPACE;
+            const dochomePth = path.join(root, "README.md");
+            const template = fs.readFileSync(dochomePth, { encoding: "utf-8" });
+            const dochome = template.replace(/VERSION_IDENTIFIER/g, process.env.VERSION);
+            fs.writeFileSync(dochomePth, dochome);
+
+      - run: npm run gendoc
+
+      - name: Deploy docs
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: docs
+          commit-message: Deploy docs for branch ${{ steps.branch.outputs.short_ref }}
+          target-folder: docs/${{ steps.branch.outputs.short_ref }}
+          git-config-name: github-actions[bot]
+          git-config-email: 205194+kenhuang@users.noreply.github.com
+          clean: true
